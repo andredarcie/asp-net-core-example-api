@@ -88,6 +88,33 @@ And add `services.AddScoped<IDirectorManager, DirectorManager>();` in `Startup.c
 
 Create [DirectorsController.cs](https://github.com/andredarcie/asp-net-core-example-api/blob/af71bfc32dee7bb3c6d5703d74b8cca38001a524/Controllers/DirectorsController.cs) inside `Controllers` folder
 
+In `Models/Movies/Movie.cs` file add
+
+```
+public long DirectorId { get; set; }
+public Director Director { get; set; }
+```
+
+In `Models/Movies/MovieManager.cs` file change `GetAll()` and `GetById()` methods
+
+```
+public async Task<List<Movie>> GetAll()
+{
+    return await _context.Movies.Include(m => m.Director).ToListAsync();
+}
+```
+
+```
+public async Task<Movie> GetById(long id)
+{
+    return await _context.Movies.Include(m => m.Director)
+                                .AsNoTracking()
+                                .FirstOrDefaultAsync(m => m.Id == id);
+}
+```
+
+To include the director in the movie
+
 ### Create Database
 Run the command, to created the database migrations and snapshot, which is the C# code that represents the database
 `dotnet ef migrations add InitialCreate`
