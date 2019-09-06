@@ -15,12 +15,14 @@ namespace asp_net_core_example_api.Models.Movies
 
         public async Task<List<Movie>> GetAll()
         {
-            return await _context.Movies.ToListAsync();
+            return await _context.Movies.Include(m => m.Director).ToListAsync();
         }
 
         public async Task<Movie> GetById(long id)
         {
-            return await _context.Movies.FirstOrDefaultAsync(m => m.Id == id);
+            return await _context.Movies.Include(m => m.Director)
+                                        .AsNoTracking()
+                                        .FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<bool> Create(Movie movie)
