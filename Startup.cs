@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using asp_net_core_example_api.Models;
+using asp_net_core_example_api.Models.Directors;
 using asp_net_core_example_api.Models.Movies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +34,7 @@ namespace asp_net_core_example_api
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=myapp.db"));
 
             services.AddScoped<IMovieManager, MovieManager>();
+            services.AddScoped<IDirectorManager, DirectorManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
